@@ -71,6 +71,7 @@ export class FormComponent {
     );
     const newTodoItem: TodoItem = {
       ...this.form.getRawValue(),
+      id: `${STORAGE_KEY.todo}_${new Date().getTime().toString()}`,
       status: TODO_STATUS.planning,
     };
 
