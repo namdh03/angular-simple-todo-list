@@ -1,0 +1,44 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <fieldset>
+    <legend>New Todo Item</legend>
+
+    <div>
+      <label for="title">Title</label>
+      <input type="text" id="title" name="title" formControlName="title" />
+      @if(titleInvalid) {
+      <p>Title is required!</p>
+      }
+    </div>
+
+    <div>
+      <label for="description">Description</label>
+      <input
+        type="text"
+        id="description"
+        name="description"
+        formControlName="description"
+      />
+      @if(descriptionInvalid) {
+      <p>Description is required!</p>
+      }
+    </div>
+
+    <div>
+      <label for="content">Content</label>
+      <input
+        type="text"
+        id="content"
+        name="content"
+        formControlName="content"
+      />
+      @if(contentInvalid) {
+      <p>Content is required!</p>
+      }
+    </div>
+
+    <div>
+      <button type="button" routerLink="../">Cancel</button>
+      <button>Submit</button>
+    </div>
+  </fieldset>
+</form>
