@@ -1,0 +1,7 @@
+@for (todoItem of todoList(); track todoItem) {
+  <app-item [todoItem]="todoItem" />
+
+  @if(!$last) {
+    <hr />
+  }
+}

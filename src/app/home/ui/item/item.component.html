@@ -1,0 +1,13 @@
+<div>
+  <div>
+    <h4>{{ todoItem().title }} - {{ todoItem().status }}</h4>
+    <p>
+      {{ todoItem().description }}
+    </p>
+  </div>
+  <div>
+    <button routerLink="{{ '@' + todoItem().title }}">Detail</button>
+    <button>Delete</button>
+    <button>Change Status</button>
+  </div>
+</div>

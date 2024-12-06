@@ -5,6 +5,7 @@ export const routes: Routes = [
     path: '',
     loadComponent: () =>
       import('./home/home.component').then((c) => c.HomeComponent),
+    loadChildren: () => import('./home/home.routes').then((m) => m.homeRoutes),
   },
   {
     path: 'form',
