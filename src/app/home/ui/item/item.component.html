@@ -6,8 +6,8 @@
     </p>
   </div>
   <div>
-    <button routerLink="{{ '@' + todoItem().title }}">Detail</button>
-    <button>Delete</button>
+    <button [routerLink]="['@', todoItem().title]">Detail</button>
+    <button (click)="onDelete.emit(todoItem().id)">Delete</button>
     <button>Change Status</button>
   </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { TodoItem } from '../../../shared/models';
 import { RouterLink } from '@angular/router';
 
@@ -11,4 +11,5 @@ import { RouterLink } from '@angular/router';
 })
 export class ItemComponent {
   todoItem = input.required<TodoItem>();
+  onDelete = output<string>();
 }

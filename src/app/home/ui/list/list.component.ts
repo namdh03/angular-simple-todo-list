@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { LocalStorageUtil } from '../../../shared/utils/local-storage';
 import { STORAGE_KEY, TODO_STATUS } from '../../../shared/constants';
 import { TodoItem } from '../../../shared/models';
-import { ItemComponent } from "../item/item.component";
+import { ItemComponent } from '../item/item.component';
 
 @Component({
   selector: 'app-list',
@@ -15,7 +15,7 @@ import { ItemComponent } from "../item/item.component";
 export class ListComponent implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
   private destroyRef = inject(DestroyRef);
-  private readonly storedTodoList =
+  private storedTodoList: TodoItem[] =
     LocalStorageUtil.getItem<TodoItem[]>(STORAGE_KEY.todo) || [];
   todoList = signal<TodoItem[]>([]);
 
@@ -28,20 +28,22 @@ export class ListComponent implements OnInit {
       },
     });
 
-    this.destroyRef.onDestroy(() => {
-      subscription.unsubscribe();
-    });
+    this.destroyRef.onDestroy(() => subscription.unsubscribe());
+  }
+
+  handleDelete(id: string): void {
+    this.storedTodoList = this.storedTodoList.filter((item) => item.id !== id);
+    LocalStorageUtil.setItem(STORAGE_KEY.todo, this.storedTodoList);
+    this.todoList.set(this.storedTodoList);
   }
 
   private updateTodoList(status: string): void {
-    if (status === TODO_STATUS.all.toLowerCase()) {
-      this.todoList.set(this.storedTodoList);
-    } else {
-      this.todoList.set(
-        this.storedTodoList.filter(
-          (item) => item.status.toLowerCase() === status
-        )
-      );
-    }
+    const filteredList =
+      status === TODO_STATUS.all.toLowerCase()
+        ? this.storedTodoList
+        : this.storedTodoList.filter(
+            (item) => item.status.toLowerCase() === status
+          );
+    this.todoList.set(filteredList);
   }
 }
