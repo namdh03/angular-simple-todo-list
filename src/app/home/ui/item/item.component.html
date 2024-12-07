@@ -6,7 +6,7 @@
     </p>
   </div>
   <div>
-    <button routerLink="@{{ todoItem().title }}_{{ todoItem().id }}">
+    <button routerLink="/@{{ todoItem().title }}_{{ todoItem().id }}">
       Detail
     </button>
     <button (click)="onDelete.emit(todoItem().id)">Delete</button>

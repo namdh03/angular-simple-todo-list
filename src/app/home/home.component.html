@@ -1,10 +1,14 @@
+<form [formGroup]="form">
+  <input placeholder="Search..." formControlName="search" />
+</form>
+
 <button routerLink="/form">Add Todo</button>
 
 <ul class="tab-list">
-  <li routerLink="/">All</li>
-  <li routerLink="/planning">Planning</li>
-  <li routerLink="/processing">Processing</li>
-  <li routerLink="/complete">Complete</li>
+  <li routerLink="/" queryParamsHandling="preserve">All</li>
+  <li routerLink="/planning" queryParamsHandling="preserve">Planning</li>
+  <li routerLink="/processing" queryParamsHandling="preserve">Processing</li>
+  <li routerLink="/complete" queryParamsHandling="preserve">Complete</li>
 </ul>
 
 <hr />

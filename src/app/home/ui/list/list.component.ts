@@ -21,7 +21,7 @@ export class ListComponent implements OnInit {
   todoList = signal<TodoItem[]>([]);
 
   ngOnInit(): void {
-    const subscription = this.activatedRoute.url.subscribe({
+    const urlSubscription = this.activatedRoute.url.subscribe({
       next: (segments) => {
         this.currentRoute =
           segments?.[0]?.path || TODO_STATUS.all.toLowerCase();
@@ -29,7 +29,17 @@ export class ListComponent implements OnInit {
       },
     });
 
-    this.destroyRef.onDestroy(() => subscription.unsubscribe());
+    const queryParamsSubscription = this.activatedRoute.queryParams.subscribe(
+      (params) => {
+        const searchQuery = params['search'] || '';
+        this.updateTodoList(this.currentRoute, searchQuery);
+      }
+    );
+
+    this.destroyRef.onDestroy(() => {
+      urlSubscription.unsubscribe();
+      queryParamsSubscription.unsubscribe();
+    });
   }
 
   handleDelete(id: string): void {
@@ -56,13 +66,20 @@ export class ListComponent implements OnInit {
     this.updateTodoList(this.currentRoute);
   }
 
-  private updateTodoList(status: string): void {
-    const filteredList =
+  private updateTodoList(status: string, searchQuery: string = ''): void {
+    let filteredList =
       status === TODO_STATUS.all.toLowerCase()
         ? this.storedTodoList
         : this.storedTodoList.filter(
             (item) => item.status.toLowerCase() === status
           );
+
+    if (searchQuery.trim()) {
+      filteredList = filteredList.filter((item) =>
+        item.title.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
     this.todoList.set(filteredList);
   }
 }
