@@ -26,4 +26,9 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./detail/detail.component').then((c) => c.DetailComponent),
   },
+  {
+    path: '**',
+    loadComponent: () =>
+      import('./error/error.component').then((c) => c.ErrorComponent),
+  },
 ];
