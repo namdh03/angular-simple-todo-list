@@ -1,5 +1,9 @@
-@for (todoItem of todoList(); track todoItem) {
-<app-item [todoItem]="todoItem" (onDelete)="handleDelete($event)" />
+@for (todoItem of todoList(); track todoItem.id) {
+<app-item
+  [todoItem]="todoItem"
+  (onDelete)="handleDelete($event)"
+  (onChangeStatus)="handleChangeStatus($event)"
+/>
 
 @if(!$last) {
 <hr />

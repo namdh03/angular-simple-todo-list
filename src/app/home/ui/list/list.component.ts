@@ -17,14 +17,15 @@ export class ListComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   private storedTodoList: TodoItem[] =
     LocalStorageUtil.getItem<TodoItem[]>(STORAGE_KEY.todo) || [];
+  private currentRoute: string = TODO_STATUS.all.toLowerCase();
   todoList = signal<TodoItem[]>([]);
 
   ngOnInit(): void {
     const subscription = this.activatedRoute.url.subscribe({
       next: (segments) => {
-        const currentRoute =
+        this.currentRoute =
           segments?.[0]?.path || TODO_STATUS.all.toLowerCase();
-        this.updateTodoList(currentRoute);
+        this.updateTodoList(this.currentRoute);
       },
     });
 
@@ -34,7 +35,25 @@ export class ListComponent implements OnInit {
   handleDelete(id: string): void {
     this.storedTodoList = this.storedTodoList.filter((item) => item.id !== id);
     LocalStorageUtil.setItem(STORAGE_KEY.todo, this.storedTodoList);
-    this.todoList.set(this.storedTodoList);
+    this.updateTodoList(this.currentRoute);
+  }
+
+  handleChangeStatus(id: string): void {
+    this.storedTodoList = this.storedTodoList.map((item) =>
+      item.id === id
+        ? {
+            ...item,
+            status:
+              item.status === TODO_STATUS.planning
+                ? TODO_STATUS.processing
+                : item.status === TODO_STATUS.processing
+                ? TODO_STATUS.complete
+                : TODO_STATUS.complete,
+          }
+        : item
+    );
+    LocalStorageUtil.setItem(STORAGE_KEY.todo, this.storedTodoList);
+    this.updateTodoList(this.currentRoute);
   }
 
   private updateTodoList(status: string): void {

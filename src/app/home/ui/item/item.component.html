@@ -8,6 +8,9 @@
   <div>
     <button [routerLink]="['@', todoItem().title]">Detail</button>
     <button (click)="onDelete.emit(todoItem().id)">Delete</button>
-    <button>Change Status</button>
+
+    @if (todoItem().status !== todoStatusComplete) {
+    <button (click)="onChangeStatus.emit(todoItem().id)">Change Status</button>
+    }
   </div>
 </div>
