@@ -18,8 +18,8 @@ import { TodoItem } from '../shared/models';
   styleUrl: './form.component.scss',
 })
 export class FormComponent {
-  private router = inject(Router);
-  form = new FormGroup({
+  private readonly router = inject(Router);
+  readonly form = new FormGroup({
     title: new FormControl('', {
       validators: [Validators.required],
       nonNullable: true,

@@ -1,11 +1,7 @@
-import { Component, inject } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import {
-  Router,
-  RouterLink,
-  RouterOutlet,
-  ActivatedRoute,
-} from '@angular/router';
+import { Component, effect, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
@@ -16,23 +12,17 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
   styleUrl: './home.component.scss',
 })
 export class HomeComponent {
-  private router = inject(Router);
-  private activatedRoute = inject(ActivatedRoute);
-  form = new FormGroup({
-    search: new FormControl('', { nonNullable: true }),
-  });
+  private readonly router = inject(Router);
+  readonly searchControl = new FormControl('', { nonNullable: true });
 
-  ngOnInit(): void {
-    this.form.controls.search.valueChanges
-      .pipe(debounceTime(500), distinctUntilChanged())
-      .subscribe({
-        next: (value) => {
-          this.router.navigate([], {
-            relativeTo: this.activatedRoute,
-            queryParams: { search: value },
-            queryParamsHandling: 'merge',
-          });
-        },
-      });
-  }
+  private readonly searchSignal = toSignal(
+    this.searchControl.valueChanges.pipe(
+      debounceTime(500),
+      distinctUntilChanged()
+    )
+  );
+
+  private readonly _searchEffect = effect(() => {
+    this.router.navigate([], { queryParams: { search: this.searchSignal() } });
+  });
 }

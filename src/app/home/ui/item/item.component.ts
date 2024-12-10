@@ -11,8 +11,8 @@ import { TODO_STATUS } from '../../../shared/constants';
   styleUrl: './item.component.scss',
 })
 export class ItemComponent {
-  todoItem = input.required<TodoItem>();
-  onDelete = output<string>();
-  onChangeStatus = output<string>();
+  readonly todoItem = input.required<TodoItem>();
+  readonly onDelete = output<string>();
+  readonly onChangeStatus = output<string>();
   readonly todoStatusComplete = TODO_STATUS.complete;
 }

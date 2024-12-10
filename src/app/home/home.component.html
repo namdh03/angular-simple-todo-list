@@ -1,6 +1,4 @@
-<form [formGroup]="form">
-  <input placeholder="Search..." formControlName="search" />
-</form>
+<input placeholder="Search..." [formControl]="searchControl" />
 
 <button routerLink="/form">Add Todo</button>
 

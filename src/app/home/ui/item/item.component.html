@@ -1,18 +1,20 @@
+@if (todoItem(); as todoItem) {
 <div>
   <div>
-    <h4>{{ todoItem().title }} - {{ todoItem().status }}</h4>
+    <h4>{{ todoItem.title }} - {{ todoItem.status }}</h4>
     <p>
-      {{ todoItem().description }}
+      {{ todoItem.description }}
     </p>
   </div>
   <div>
-    <button routerLink="/@{{ todoItem().title }}_{{ todoItem().id }}">
+    <button routerLink="/@{{ todoItem.title }}_{{ todoItem.id }}">
       Detail
     </button>
-    <button (click)="onDelete.emit(todoItem().id)">Delete</button>
+    <button (click)="onDelete.emit(todoItem.id)">Delete</button>
 
-    @if (todoItem().status !== todoStatusComplete) {
-    <button (click)="onChangeStatus.emit(todoItem().id)">Change Status</button>
+    @if (todoItem.status !== todoStatusComplete) {
+    <button (click)="onChangeStatus.emit(todoItem.id)">Change Status</button>
     }
   </div>
 </div>
+}

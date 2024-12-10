@@ -1,5 +1,7 @@
-<h4>{{ todoItem()?.title }} - {{ todoItem()?.status }}</h4>
+@if(todoItem(); as todoItem) {
+<h4>{{ todoItem.title }} - {{ todoItem.status }}</h4>
 <p>
-  {{ todoItem()?.content }}
+  {{ todoItem.content }}
 </p>
 <button routerLink="../">Back</button>
+}
